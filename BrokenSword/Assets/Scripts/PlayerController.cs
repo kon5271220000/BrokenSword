@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Animator _anim;
 
+    [Header("Layer Mask")]
+    [SerializeField] private LayerMask _groundLayer;
+
+
     [Header("Movement Variables")]
     [SerializeField] private float _movementAcceleration = 70.0f;
     [SerializeField] private float _maxMoveSpeed = 12.0f;
@@ -16,8 +20,14 @@ public class PlayerController : MonoBehaviour
     private float _verticalDirection;
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0f);
 
+    [Header("Jump Variables")]
+    [SerializeField] private float _jumpForce = 12.0f;
 
-    
+    [Header("Ground Collision Variables")]
+    [SerializeField] private float _groundRaycastLength;
+    private bool _onGround;
+    private bool _canJump => Input.GetButtonDown("Jump") && _onGround;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +42,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        CheckCollisions();
         MoveCharactor();
         ApplyLinearDrag();
+        if (_canJump) Jump();
     }
 
     private Vector2 GetInput()
@@ -61,5 +73,22 @@ public class PlayerController : MonoBehaviour
         {
             _rb.drag = 0.0f;
         }
+    }
+
+    private void Jump()
+    {
+        _rb.velocity = new Vector2(_rb.velocity.x, 0f);
+        _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+    }
+
+    private void CheckCollisions()
+    {
+        _onGround = Physics2D.Raycast(transform.position * _groundRaycastLength, Vector2.down, _groundRaycastLength, _groundLayer);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * _groundRaycastLength);
     }
 }
