@@ -12,7 +12,7 @@ public class JumpController : MonoBehaviour
     [Header("Ground Check")]
     public Transform _groundCheck;
     public LayerMask _groundLayer;
-    bool _onGround;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -23,9 +23,16 @@ public class JumpController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _onGround = Physics2D.OverlapCapsule(_groundCheck.position, new Vector2(1.8f, 0.3f), CapsuleDirection2D.Horizontal, 0, _groundLayer);
-        if (Input.GetButtonDown("Jump") && _onGround){
+    
+        if (Input.GetButtonDown("Jump") && OnGround()){
             _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
         }
     }
+
+    bool OnGround()
+    {
+        return Physics2D.OverlapCapsule(_groundCheck.position, new Vector2(1.26f, 0.21f), CapsuleDirection2D.Horizontal, 0, _groundLayer);
+    }
+
+
 }
