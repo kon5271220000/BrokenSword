@@ -12,6 +12,10 @@ public class JumpController : MonoBehaviour
     [Header("Ground Check")]
     public Transform _groundCheck;
     public LayerMask _groundLayer;
+
+    [Header("Ground Collision Variables")]
+    [SerializeField] private float _groundRaycastLength;
+    private bool _onGround;
     
 
     // Start is called before the first frame update
@@ -23,16 +27,32 @@ public class JumpController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
-        if (Input.GetButtonDown("Jump") && OnGround()){
-            _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
+  
+    }
+
+    private void FixedUpdate()
+    {
+        CheckCollisions();
+        if (Input.GetButtonDown("Jump") && _onGround)
+        {
+            Jump();
         }
     }
 
-    bool OnGround()
+    private void Jump()
     {
-        return Physics2D.OverlapCapsule(_groundCheck.position, new Vector2(1.26f, 0.21f), CapsuleDirection2D.Horizontal, 0, _groundLayer);
+        _rb.velocity = new Vector2(_rb.velocity.x, 0);
+        _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 
+    private void CheckCollisions()
+    {
+        _onGround = Physics2D.Raycast(transform.position * _groundRaycastLength, Vector2.down, _groundRaycastLength, _groundLayer);
+    }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * _groundRaycastLength);
+    }
 }
