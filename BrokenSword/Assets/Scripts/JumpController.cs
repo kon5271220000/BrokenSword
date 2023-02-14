@@ -10,7 +10,6 @@ public class JumpController : MonoBehaviour
     [SerializeField] private float _jumpForce;
 
     [Header("Ground Check")]
-    public Transform _groundCheck;
     public LayerMask _groundLayer;
 
     [Header("Ground Collision Variables")]
