@@ -17,6 +17,7 @@ public class DashController : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _tr = GetComponent<TrailRenderer>();
     }
 
     // Update is called once per frame
@@ -38,6 +39,7 @@ public class DashController : MonoBehaviour
         {
             return;
         }
+ 
     }
 
     private IEnumerator Dash()

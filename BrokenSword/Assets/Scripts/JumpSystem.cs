@@ -6,6 +6,7 @@ public class JumpSystem : MonoBehaviour
 {
     [Header("Component")]
     private Rigidbody2D _rb;
+    private TrailRenderer _tr;
 
     [Header("Jump Varibles")]
     [SerializeField] private float _jumpTime = 0.4f;
@@ -13,24 +14,33 @@ public class JumpSystem : MonoBehaviour
     [SerializeField] private float _fallMultipler = 5.0f;
     [SerializeField] private float _jumpMultipler = 3.0f;
     private bool _doubleJump;
+    bool _isJumping;
+    float _jumpCounter;
 
     [Header("Layer Marsk")]
     [SerializeField]public Transform _groundCheck;
     [SerializeField]public LayerMask _groundLayer;
     private Vector2 vecGravity;
 
-    bool _isJumping;
-    float _jumpCounter;
+    [Header("Dash Variables")]
+    [SerializeField] private float _dashingVelocity = 14.0f;
+    [SerializeField] private float _dashingTime = 0.5f;
+    private Vector2 _dashingDirection;
+    private bool _isDashing;
+    private bool _canDashing = true;
+
     // Start is called before the first frame update
     void Start()
     {
         vecGravity = new Vector2(0, -Physics2D.gravity.y);
         _rb = GetComponent<Rigidbody2D>();
+        _tr = GetComponent<TrailRenderer>();
     }
     
     // Update is called once per frame
     void Update()
     {
+        //Jump
         if(_isGrounded() && !Input.GetButton("Jump"))
         {
             _doubleJump = false;
@@ -80,6 +90,33 @@ public class JumpSystem : MonoBehaviour
         {
             _rb.velocity -= vecGravity * _fallMultipler * Time.deltaTime;
         }
+
+        //Dash
+        var _dashInput = Input.GetButtonDown("Dash");
+
+        if (_dashInput && _canDashing)
+        {
+            _isDashing = true;
+            _canDashing = false;
+            _tr.emitting = true;
+            _dashingDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            if (_dashingDirection == Vector2.zero)
+            {
+                _dashingDirection = new Vector2(transform.localScale.x, 0);
+            }
+            StartCoroutine(StopDashing());
+        }
+
+        if (_isDashing)
+        {
+            _rb.velocity = _dashingDirection.normalized * _dashingVelocity;
+            return;
+        }
+
+        if (_isGrounded())
+        {
+            _canDashing = true;
+        }
     }
 
     private void Jump()
@@ -91,5 +128,12 @@ public class JumpSystem : MonoBehaviour
     bool _isGrounded()
     {
         return Physics2D.OverlapCapsule(_groundCheck.position, new Vector2(1.09f, 0.22f), CapsuleDirection2D.Horizontal, 0, _groundLayer);
+    }
+
+    private IEnumerator StopDashing()
+    {
+        yield return new WaitForSeconds(_dashingTime);
+        _tr.emitting = false;
+        _isDashing = false;
     }
 }
