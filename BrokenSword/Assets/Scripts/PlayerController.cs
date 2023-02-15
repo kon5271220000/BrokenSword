@@ -8,9 +8,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D _rb;
     private Animator _anim;
 
-    [Header("Layer Mask")]
-    [SerializeField] private LayerMask _groundLayer;
-
 
     [Header("Movement Variables")]
     [SerializeField] private float _movementAcceleration = 70.0f;
@@ -18,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _LinearDrag = 7.0f;
     private float _horizontalDirection;
     private float _verticalDirection;
+
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0f);
 
     // Start is called before the first frame update
