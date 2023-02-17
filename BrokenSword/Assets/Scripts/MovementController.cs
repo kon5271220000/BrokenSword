@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpSystem : MonoBehaviour
+public class MovementController : MonoBehaviour
 {
     [Header("Component")]
     private Rigidbody2D _rb;
     private TrailRenderer _tr;
+
+    [Header("Movement Variables")]
+    [SerializeField] private float _acceleration = 70.0f;
+    [SerializeField] private float _maxMoveSpeed = 12.0f;
+    [SerializeField] private float _linearDrag = 7.0f;
+    private float _horizontalDirection;
+    private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0);
+    
 
     [Header("Jump Varibles")]
     [SerializeField] private float _jumpTime = 0.4f;
@@ -40,14 +48,18 @@ public class JumpSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _horizontalDirection = GetInput().x;
+
         //Jump
         if(_isGrounded() && !Input.GetButton("Jump"))
         {
             _doubleJump = false;
         }
+
+        //Jump Control
         if (Input.GetButtonDown("Jump"))
         {
-            if (_isGrounded() || _doubleJump)
+            if (_isGrounded() || _doubleJump) 
             {
                 Jump();
                 _isJumping = true;
@@ -119,12 +131,47 @@ public class JumpSystem : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        MoveCharacter();
+        ApplyLinearDrag();
+    }
+    
+
+    private Vector2 GetInput()
+    {
+        return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    }
+    private void MoveCharacter()
+    {
+        _rb.AddForce(new Vector2(_horizontalDirection, 0.0f) * _acceleration);
+
+        if(Mathf.Abs(_rb.velocity.x) > _maxMoveSpeed)
+        {
+            _rb.velocity = new Vector2(Mathf.Sign(_rb.velocity.x) * _maxMoveSpeed, _rb.velocity.y);
+        }
+    }
+
+    private void ApplyLinearDrag()
+    {
+        if (Mathf.Abs(_horizontalDirection) < 0.4f || _changingDirection) 
+        {
+            _rb.drag = _linearDrag;
+        }
+        else
+        {
+            _rb.drag = 0f;
+        }
+    }
+
+    //Add Jump Force
     private void Jump()
     {
         _rb.velocity = new Vector2(_rb.velocity.x, 0);
         _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 
+    //Check ground 
     bool _isGrounded()
     {
         return Physics2D.OverlapCapsule(_groundCheck.position, new Vector2(1.09f, 0.22f), CapsuleDirection2D.Horizontal, 0, _groundLayer);

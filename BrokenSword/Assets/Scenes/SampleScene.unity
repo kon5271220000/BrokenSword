@@ -133,12 +133,10 @@ GameObject:
   m_Component:
   - component: {fileID: 261014121}
   - component: {fileID: 261014120}
-  - component: {fileID: 261014122}
   - component: {fileID: 261014124}
   - component: {fileID: 261014123}
   - component: {fileID: 261014125}
   - component: {fileID: 261014126}
-  - component: {fileID: 261014127}
   m_Layer: 0
   m_Name: demo
   m_TagString: Untagged
@@ -212,21 +210,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &261014122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261014119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 609c4790065898b4cbac667526bc7900, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _movementAcceleration: 70
-  _maxMoveSpeed: 12
-  _LinearDrag: 7
 --- !u!61 &261014123
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -286,14 +269,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9774be00437c3554abdd40c687b045a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rb: {fileID: 0}
+  _tr: {fileID: 0}
+  _acceleration: 70
+  _maxMoveSpeed: 12
+  _linearDrag: 7
+  _horizontalDirection: 0
   _jumpTime: 0.4
   _jumpForce: 18
   _fallMultipler: 5
   _jumpMultipler: 3
+  _doubleJump: 0
+  _isJumping: 0
+  _jumpCounter: 0
   _groundCheck: {fileID: 682051978}
   _groundLayer:
-    serializedVersion: 2
     m_Bits: 256
+  vecGravity: {x: 0, y: 0}
+  _dashingVelocity: 14
+  _dashingTime: 0.5
+  _dashingDirection: {x: 0, y: 0}
+  _isDashing: 0
+  _canDashing: 1
 --- !u!96 &261014126
 TrailRenderer:
   serializedVersion: 2
@@ -401,22 +398,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 0
---- !u!114 &261014127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261014119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7241c7fd5e3cd0d46b0c98859ff998f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _dashingForce: 1000
-  _dashingTime: 0.2
-  _dashingCooldown: 1
-  _tr: {fileID: 261014126}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
