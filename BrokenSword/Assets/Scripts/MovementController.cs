@@ -14,7 +14,7 @@ public class MovementController : MonoBehaviour
     [SerializeField] private float _linearDrag = 7.0f;
     private float _horizontalDirection;
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0);
-    
+    private bool _facingRight = true;
 
     [Header("Jump Varibles")]
     [SerializeField] private float _jumpTime = 0.4f;
@@ -135,6 +135,15 @@ public class MovementController : MonoBehaviour
     {
         MoveCharacter();
         ApplyLinearDrag();
+
+        if(_horizontalDirection < 0 && _facingRight)
+        {
+            Flip();
+        }
+        if(_horizontalDirection > 0 && !_facingRight)
+        {
+            Flip();
+        }
     }
     
 
@@ -182,5 +191,11 @@ public class MovementController : MonoBehaviour
         yield return new WaitForSeconds(_dashingTime);
         _tr.emitting = false;
         _isDashing = false;
+    }
+
+    private void Flip()
+    {
+        _facingRight = !_facingRight;
+        transform.Rotate(0f, 180f, 0f);
     }
 }
