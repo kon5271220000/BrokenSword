@@ -5,6 +5,7 @@ using UnityEngine;
 public class MovementControl : MonoBehaviour
 {
     [Header("Component")]
+    private Animator _anim;
     private Rigidbody2D _rb;
     private TrailRenderer _tr;
 
@@ -43,16 +44,40 @@ public class MovementControl : MonoBehaviour
         _vecGravity = new Vector2(0, -Physics2D.gravity.y);
         _rb = GetComponent<Rigidbody2D>();
         _tr = GetComponent<TrailRenderer>();
+        _anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         _horizontalDirection = GetInput().x;
+
+        _anim.SetFloat("Speed", Mathf.Abs(_horizontalDirection));
 
         if (IsGrounded() && !Input.GetButton("Jump"))
         {
             _doubleJump = false;
+        }
+
+        if (IsGrounded() && Input.GetButton("Jump"))
+        {
+            _anim.SetBool("IsJumping", true);
+        }
+
+        if (IsGrounded())
+        {
+            _anim.SetBool("OnGround", true);
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            _anim.SetBool("IsJumping", true);
+        }
+
+        if(IsGrounded()!=false)
+        {
+            _anim.SetBool("OnAir", true);
         }
 
         //Jump Control
@@ -179,7 +204,7 @@ public class MovementControl : MonoBehaviour
 
     bool IsGrounded()
     {
-        return Physics2D.OverlapCapsule(_groundCheck.position, new Vector2(1.09f, 0.21f), CapsuleDirection2D.Horizontal, 0, _groundLayer);
+        return Physics2D.OverlapCapsule(_groundCheck.position, new Vector2(1.22f, 0.22f), CapsuleDirection2D.Horizontal, 0, _groundLayer);
     }
 
     private void Flip()
