@@ -11,6 +11,12 @@ TextureImporter:
   - first:
       213: 8057176226219629120
     second: meleeSwipe_2
+  - first:
+      213: 2110631454347605869
+    second: meleeSwipe_3
+  - first:
+      213: -5138794265395898777
+    second: meleeSwipe_4
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -115,8 +121,8 @@ TextureImporter:
       name: meleeSwipe_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 7
+        x: 2
+        y: 9
         width: 11
         height: 19
       alignment: 7
@@ -136,8 +142,8 @@ TextureImporter:
       name: meleeSwipe_1
       rect:
         serializedVersion: 2
-        x: 23
-        y: 7
+        x: 18
+        y: 9
         width: 11
         height: 19
       alignment: 7
@@ -157,8 +163,8 @@ TextureImporter:
       name: meleeSwipe_2
       rect:
         serializedVersion: 2
-        x: 44
-        y: 7
+        x: 33
+        y: 6
         width: 15
         height: 20
       alignment: 7
@@ -170,6 +176,48 @@ TextureImporter:
       bones: []
       spriteID: 04a1b88c617d0df60800000000000000
       internalID: 8057176226219629120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: meleeSwipe_3
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 11
+        width: 9
+        height: 10
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d67b72800287a4d10800000000000000
+      internalID: 2110631454347605869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: meleeSwipe_4
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 10
+        width: 9
+        height: 10
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 766534597d55fa8b0800000000000000
+      internalID: -5138794265395898777
       vertices: []
       indices: 
       edges: []
