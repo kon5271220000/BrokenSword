@@ -14,7 +14,7 @@ public class MovementControl : MonoBehaviour
     [SerializeField] private float _maxMoveSpeed = 12.0f;
     [SerializeField] private float _linearDrag = 7.0f;
     private float _horizontalDirection;
-    bool _facingRight = true;
+    public bool _facingRight = true;
     private bool _changingDirection => (_rb.velocity.x > 0f && _horizontalDirection < 0f) || (_rb.velocity.x < 0f && _horizontalDirection > 0);
 
     [Header("Jump Varibles")]
@@ -25,6 +25,7 @@ public class MovementControl : MonoBehaviour
     private bool _doubleJump;
     bool _isJumping;
     float _jumpCounter;
+    public bool _onGround;
 
     [Header("Layer Marsk")]
     [SerializeField] public Transform _groundCheck;
@@ -151,6 +152,7 @@ public class MovementControl : MonoBehaviour
         if (IsGrounded())
         {
             _canDashing = true;
+            _onGround = true;
         }
     }
 
