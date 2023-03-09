@@ -16,7 +16,7 @@ public class MeleeAttackManager : MovementControl
     {
         _anim = GetComponent<Animator>();
         _character = GetComponent<MovementControl>();
-        _meleeAnim = GetComponentInParent<MeleeWeapon>().gameObject.GetComponent<Animator>();
+        _meleeAnim = GetComponentInChildren<MeleeWeapon>().gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
